@@ -2,6 +2,7 @@ package com.example.shadow.csf11;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String ddk;
     TextView txt;
 
+    TextView dtxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         thu = (Button)findViewById(R.id.Thu);
         fri = (Button)findViewById(R.id.Fri);
         txt = (TextView)findViewById(R.id.textView3) ;
+
+
+        //debug
+
+
+        dtxt = findViewById(R.id.tvtow);
+
+        Time time = new Time(12, 2, 2018);
+        int a = time.getTypeOfWeek();
+
+        if(a==0) {
+            dtxt.setText("числитель");
+        }
+        if(a==1) {
+            dtxt.setText("знаменатель");
+        }
+
+        //---
+
 
         tue.setOnClickListener(this);
         wed.setOnClickListener(this);
@@ -66,17 +88,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view){
+        Resources res = getResources();
         switch (view.getId()){
             case R.id.Tue: todaynumber = 1;
+            setTitle(res.getString(R.string.tue));
             get_JSON(todaynumber);
             break;
             case R.id.Wed: todaynumber = 2;
+            setTitle(res.getString(R.string.wen));
             get_JSON(todaynumber);
             break;
             case R.id.Thu: todaynumber = 3;
+            setTitle(res.getString(R.string.thu));
             get_JSON(todaynumber);
             break;
             case  R.id.Fri: todaynumber = 4;
+            setTitle(res.getString(R.string.fri));
             get_JSON(todaynumber);
             break;
         }

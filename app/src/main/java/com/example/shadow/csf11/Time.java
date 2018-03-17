@@ -24,9 +24,8 @@ public class Time {
     private int typeOfWeek;
 
 
-     Time(){
+     Time(){}
 
-     }
      Time(int start_day, int start_mounth, int start_year){
         this.sDay = start_day;
         this.sMounth = start_mounth;

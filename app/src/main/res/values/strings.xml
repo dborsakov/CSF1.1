@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CSF1.1</string>
+    <string name="tue">Вторник</string>
+    <string name="wen">Среда</string>
+    <string name="thu">Четверг</string>
+    <string name="fri">Пятница</string>
 </resources>
