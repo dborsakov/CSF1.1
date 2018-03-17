@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         dtxt = findViewById(R.id.tvtow);
-        // dtxt.setVisibility(View.INVISIBLE);
 
         Time time = new Time(12, 2, 2018);
         int a = time.getTypeOfWeek();
