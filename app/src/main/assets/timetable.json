@@ -1,0 +1,137 @@
+[
+  {
+    "id": 0,
+    "name": "Архитектура ЭВМ(практика)",
+    "prof": "Zeynep Orhan / Zerina Masetic / Enis Gegic",
+    "place": "Аудитория 291",
+    "day": 1,
+    "startTime": "9:45 - 11:20",
+    "endTime": 11
+  },
+  {
+    "id": 1,
+    "name": "Архитектура ЭВМ(лекция)",
+    "prof": "Amar Saric / Becir Isakovic",
+    "place": "Аудитория 505п",
+    "day": 1,
+    "startTime": "11:30 - 13:05",
+    "endTime": 12
+  },
+  {
+    "id": 2,
+    "name": "Дифференциальные уравнения",
+    "prof": "Amar Saric / Becir Isakovic",
+    "place": "Аудитория 307П",
+    "day": 2,
+    "startTime": "9:45 - 11:20",
+    "endTime": 11
+  },
+  {
+    "id": 3,
+    "name": "ОКНО",
+    "prof": "Izudin Tatarevic",
+    "place": "",
+    "day": 2,
+    "startTime": "11:30 - 13:05",
+    "endTime": 17
+  },
+  {
+    "id": 4,
+    "name": "Уравнения математической физики",
+    "prof": "Nermina Durmic",
+    "place": "Аудитория 479",
+    "day": 2,
+    "startTime": "13:25 - 15:00",
+    "endTime": 11
+  },
+  {
+    "id": 5,
+    "name": "Численные методы",
+    "prof": "Dino Keco",
+    "place": "Аудитория 292",
+    "day": 2,
+    "startTime": "15:10 - 16:45",
+    "endTime": 15
+  },
+  {
+    "id": 6,
+    "name": "Колебания",
+    "prof": "Nermina Durmic",
+    "place": "Аудитория 505П",
+    "day": 3,
+    "startTime": "9:45 - 11:20",
+    "endTime": 11
+  },
+  {
+    "id": 7,
+    "name": "ОКНО",
+    "prof": "Nermina Durmic",
+    "place": "",
+    "day": 3,
+    "startTime": "11:30 - 13:05",
+    "endTime": 11
+  },
+  {
+    "id": 8,
+    "name": "Архитектура ЭВМ(практика)",
+    "prof": "Zeynep Orhan / Zerina Masetic / Enis Gegic",
+    "place": "Аудитория Л8",
+    "day": 3,
+    "startTime": "13:25 - 15:00",
+    "endTime": 13
+  },
+  {
+    "id": 9,
+    "name": "Уравнения математической физики",
+    "prof": "Serkan Balyimez",
+    "place": "Аудитория Л7",
+    "day": 3,
+    "startTime": "15:10 - 16:45",
+    "endTime": 11
+  },
+  {
+    "id": 10,
+    "name": "Математическая статистика",
+    "prof": "Amar Saric / Becir Isakovic",
+    "place": "Аудитория 292",
+    "day": 3,
+    "startTime": "16:55 - 18:10",
+    "endTime": 13
+  },
+  {
+    "id": 11,
+    "name": "Алгоритмы томографии",
+    "prof": "Adnan Hodzic / Zerina Masetic",
+    "place": "Аудитория Л6",
+    "day": 4,
+    "startTime": "9:45 - 11:20",
+    "endTime": 15
+  },
+  {
+    "id": 12,
+    "name": "Численные методы",
+    "prof": "Adnan Hodzic / Zerina Masetic",
+    "place": "Аудитория Л6",
+    "day": 4,
+    "startTime": "11:30 - 13:05",
+    "endTime": 17
+  },
+  {
+    "id": 13,
+    "name": "ОКНО",
+    "prof": "Serkan Balyimez",
+    "place": "",
+    "day": 4,
+    "startTime": "13:25 - 15:00",
+    "endTime": 14
+  },
+  {
+    "id": 14,
+    "name": "Колебания",
+    "prof": "Adnan Hodzic / Zerina Masetic",
+    "place": "Аудитория 305П",
+    "day": 4,
+    "startTime": "15:10 - 16:45",
+    "endTime": 17
+  }
+]
