@@ -30,18 +30,23 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ArrayList<String> numberlsit = new ArrayList<>();
     ListView listView;
-    Button tue, wed, thu, fri;
-    int todaynumber = 1;
-    int dd = 0;
-    int ddn = 0;
-    int sj = 0;
-    boolean b;
-    String ddk;
     TextView txt;
+    Button tue, wed, thu, fri, CW;
 
-    TextView dtxt;
+    String[] sTypeOfWeek = {"Числитель", "Знаменатель"};
+    String[] sNameDay = {"","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"};
+
+    String jsonChisl = "timetable.json";
+    String jsonZnam = "timetable.json";
+
+    /*
+    String jsonChisl = "any_chis.json";
+    String jsonZnam = "any_zn.json";
+    */
+
+    String debug = "MyLog";
+    int typeOfWeek, dayOfWeek, chekDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,196 +58,159 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         wed = (Button)findViewById(R.id.Wed);
         thu = (Button)findViewById(R.id.Thu);
         fri = (Button)findViewById(R.id.Fri);
+        CW = (Button)findViewById(R.id.CW);
         txt = (TextView)findViewById(R.id.textView3) ;
 
-
-        //debug
-
-
-        dtxt = findViewById(R.id.tvtow);
-
         Time time = new Time(12, 2, 2018);
-        int a = time.getTypeOfWeek();
+        typeOfWeek = time.getTypeOfWeek();
+        Log.v(debug,"tow="+typeOfWeek);
 
-        if(a==0) {
-            dtxt.setText("числитель");
-        }
-        if(a==1) {
-            dtxt.setText("знаменатель");
-        }
+        dayOfWeek=time.getDayOfWeek();
+        //dayOfWeek--;
+        chekDay=dayOfWeek;
+        setText();
+        Log.v(debug, "dow="+dayOfWeek);
 
-        //---
-
+        getSubject(typeOfWeek,dayOfWeek);
 
         tue.setOnClickListener(this);
         wed.setOnClickListener(this);
         thu.setOnClickListener(this);
         fri.setOnClickListener(this);
-
-        get_JSON(todaynumber);
+        CW.setOnClickListener(this);
+        //get_JSON(todaynumber);
     }
 
-
-
-
-
-    @Override
-    public void onClick(View view){
-        Resources res = getResources();
-        switch (view.getId()){
-            case R.id.Tue: todaynumber = 1;
-            setTitle(res.getString(R.string.tue));
-            get_JSON(todaynumber);
-            break;
-            case R.id.Wed: todaynumber = 2;
-            setTitle(res.getString(R.string.wen));
-            get_JSON(todaynumber);
-            break;
-            case R.id.Thu: todaynumber = 3;
-            setTitle(res.getString(R.string.thu));
-            get_JSON(todaynumber);
-            break;
-            case  R.id.Fri: todaynumber = 4;
-            setTitle(res.getString(R.string.fri));
-            get_JSON(todaynumber);
-            break;
-        }
+    public void setText(){
+        setTitle(sNameDay[dayOfWeek]);
+        txt.setText(sTypeOfWeek[typeOfWeek]);
     }
 
-    public boolean j_z (boolean jz){
-        if(jz==true)
-            return true;
-        else
-            return false;
+    public void setText(int day, int week){
+        setTitle(sNameDay[day]);
+        txt.setText(sTypeOfWeek[week]);
     }
 
-    public void get_JSON(int k){
+    public void getSubject(int typOfWeek, int countDay){
+
         String json = null;
         String name = "";
         String place = "";
         String time = "";
+        String prof="";
         long day;
 
-
         try {
+            InputStream is = null;
+            if(typOfWeek==0) {
+                 is = getAssets().open(jsonChisl);
+           }
+            if(typOfWeek==1) {
+                 is = getAssets().open(jsonZnam);
+            }
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
 
-            Time timek = new Time();
-            dd = timek.main();
-            if (dd%7!=0 && b){
-                do {
-                    dd--;
-                    ddn = dd;
-                } while (dd%7==0);
-                sj = ddn/7;
-                if (sj%2==0){
-                    txt.setText("Числитель");
-                    j_z(true);
-                }
-                else {
-                    txt.setText("Знаменатель");
-                    j_z(false);
+
+            json = new String(buffer, "UTF-8");
+            JSONArray jsonArray = new JSONArray(json);
+            //  List<String> listname = new ArrayList<String>();
+            ArrayList<HashMap<String, String>> subjectList;
+            subjectList = new ArrayList<>();
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject object = jsonArray.getJSONObject(i);
+                name = object.getString("name");
+                place = object.getString("place");
+                time = object.getString("startTime");
+                day = object.getLong("day");
+
+
+                if (day == countDay) {
+                    HashMap<String, String> subject = new HashMap<>();
+                    subject.put("name", name);
+                    subject.put("place", place);
+                    subject.put("startTime", time);
+                    subjectList.add(subject);
                 }
             }
-            else{
-                if (sj%2==0){
-                    txt.setText("Числитель");
-                    j_z(true);
-                }
-                else {
-                    txt.setText("Знаменатель");
-                    j_z(false);
-                }
-            }
 
-            if (j_z(b)==true) {
-                InputStream is = getAssets().open("timetablez.json");
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
+            ListAdapter adapter = new SimpleAdapter(MainActivity.this, subjectList, R.layout.listview,
+                    new String[]{"name", "place", "startTime"}, new int[]{R.id.textView2, R.id.textView, R.id.textView4});
+            //ArrayAdapter adapter1 = new ArrayAdapter<String>(this,R.layout.listview, R.id.textView2 ,listplace);
+            ListView listView = (ListView) findViewById(R.id.lv);
+            listView.setAdapter(adapter);
+        }
 
-
-                json = new String(buffer, "UTF-8");
-                JSONArray jsonArray = new JSONArray(json);
-                List<String> listname = new ArrayList<String>();
-                ArrayList<HashMap<String, String>> subjectList;
-                subjectList = new ArrayList<>();
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    name = object.getString("name");
-                    place = object.getString("place");
-                    time = object.getString("startTime");
-                    day = object.getLong("day");
-
-
-                    if (day == k) {
-                        HashMap<String, String> subject = new HashMap<>();
-                        subject.put("name", name);
-                        subject.put("place", place);
-                        subject.put("startTime", time);
-                        subjectList.add(subject);
-                    }
-                }
-
-                ListAdapter adapter = new SimpleAdapter(MainActivity.this, subjectList, R.layout.listview,
-                        new String[]{"name", "place", "startTime"}, new int[]{R.id.textView2, R.id.textView, R.id.textView4});
-                //ArrayAdapter adapter1 = new ArrayAdapter<String>(this,R.layout.listview, R.id.textView2 ,listplace);
-                ListView listView = (ListView) findViewById(R.id.lv);
-                listView.setAdapter(adapter);
-
-            }
-            else {
-                InputStream is = getAssets().open("timetable.json");
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-
-
-                json = new String(buffer, "UTF-8");
-                JSONArray jsonArray = new JSONArray(json);
-                List<String> listname = new ArrayList<String>();
-                ArrayList<HashMap<String, String>> subjectList;
-                subjectList = new ArrayList<>();
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-
-                    JSONObject object = jsonArray.getJSONObject(i);
-                    name = object.getString("name");
-                    place = object.getString("place");
-                    time = object.getString("startTime");
-                    day = object.getLong("day");
-
-
-                    if (day == k) {
-                        HashMap<String, String> subject = new HashMap<>();
-                        subject.put("name", name);
-                        subject.put("place", place);
-                        subject.put("startTime", time);
-                        subjectList.add(subject);
-                    }
-                }
-
-                ListAdapter adapter = new SimpleAdapter(MainActivity.this, subjectList, R.layout.listview,
-                        new String[]{"name", "place", "startTime"}, new int[]{R.id.textView2, R.id.textView, R.id.textView4});
-                //ArrayAdapter adapter1 = new ArrayAdapter<String>(this,R.layout.listview, R.id.textView2 ,listplace);
-                ListView listView = (ListView) findViewById(R.id.lv);
-                listView.setAdapter(adapter);
-            }
-        } catch (IOException e1) {
+        catch (IOException e1) {
             e1.printStackTrace();
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
-
-
-
     }
 
+    /*
+    public String tOfWeek(){
+        if (typeOfWeek==0)
+            return "Числитель";
+        if (typeOfWeek==1)
+            return "Знаменатель";
+        return "";
+    }
+    */
+
+    @Override
+    public void onClick(View view){
+        Resources res = getResources();
+        Log.v(debug,"тип недели в обработчике="+typeOfWeek);
 
 
+        if (view.getId()==R.id.CW){
+            boolean b=true;
+            if ((typeOfWeek==0) & (b)) {
+                typeOfWeek = 1;
+                getSubject(1,chekDay);
+                setText(chekDay,1);
+                b=!b;
+
+            }
+            else if ((typeOfWeek==1) & (b)) {
+                typeOfWeek=0;
+                getSubject(0,chekDay);
+                setText(chekDay,1);
+                b=!b;
+            }
+
+        }
+        Log.v(debug,"тип недели в обработчике изменили="+typeOfWeek);
+
+
+        switch (view.getId()){
+            case R.id.Tue:
+            setTitle(res.getString(R.string.tue));
+            getSubject(typeOfWeek,2);
+            chekDay=2;
+            break;
+            case R.id.Wed:
+            setTitle(res.getString(R.string.wen));
+            getSubject(typeOfWeek,3);
+            chekDay=3;
+            break;
+            case R.id.Thu:
+            setTitle(res.getString(R.string.thu));
+            getSubject(typeOfWeek,4);
+            chekDay=4;
+            break;
+            case  R.id.Fri:
+            setTitle(res.getString(R.string.fri));
+            getSubject(typeOfWeek,5);
+            chekDay=5;
+            break;
+        }
+    }
 }
 
 
